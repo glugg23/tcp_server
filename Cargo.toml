@@ -1,6 +1,0 @@
-[package]
-name = "server"
-version = "0.1.0"
-authors = ["glugg23 <m.leonhardt424@gmail.com>"]
-
-[dependencies]
