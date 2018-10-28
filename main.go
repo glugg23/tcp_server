@@ -6,14 +6,21 @@ import (
 )
 
 func handleRequest(conn net.Conn) {
-	buf := make([]byte, 1024)
+	fmt.Println("Opened connected")
 
-	reqLen, err := conn.Read(buf)
-	if err != nil {
-		fmt.Println("Error reading:", err.Error())
+	for {
+		buf := make([]byte, 1024)
+		n, err := conn.Read(buf)
+		if err != nil {
+			//Need to make sure this only happens when there are no more packets
+			fmt.Println("Closed connection")
+			break
+		}
+
+		fmt.Println(string(buf[:n]))
 	}
 
-	fmt.Println(string(buf[:reqLen]))
+	conn.Close()
 }
 
 func main() {
@@ -23,15 +30,19 @@ func main() {
 		return
 	}
 
+	fmt.Println("Started listening")
+
 	defer l.Close() //Close listener when program quits
 
 	for {
 		conn, err := l.Accept()
 		if err != nil {
-			fmt.Println("Accepting Error")
-			return
+			fmt.Println("Accept Error")
+			continue
 		}
 
 		go handleRequest(conn)
 	}
+
+	fmt.Println("Finished listening")
 }
