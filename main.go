@@ -17,6 +17,11 @@ func handleRequest(conn net.Conn) {
 			break
 		}
 
+		if string(buf[:n]) == "stop" {
+			fmt.Println("Closed connection")
+			break
+		}
+
 		fmt.Println(string(buf[:n]))
 	}
 
