@@ -29,7 +29,7 @@ func handleRequest(conn net.Conn) {
 }
 
 func main() {
-	l, err := net.Listen("tcp", "127.0.0.1:9999")
+	l, err := net.Listen("tcp4", ":9999")
 	if err != nil {
 		fmt.Println("Listening Error")
 		return
